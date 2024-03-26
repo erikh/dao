@@ -1,5 +1,4 @@
 use super::*;
-use sqlx::query::Query;
 
 #[derive(Debug, Clone)]
 pub struct Node {
@@ -12,26 +11,9 @@ pub struct Node {
     alive: bool,
 }
 
-impl<'a, DB, A> QueryGenerator<'a, DB, A> for Node
-where
-    DB: Database,
-    A: Arguments<'a>,
-{
+impl<'a> QueryGenerator<'a> for Node {
     fn id(&self) -> Option<i64> {
         self.id
-    }
-
-    fn bind(&self, query: Query<'a, DB, A>) -> Query<'a, DB, A>
-    where
-        DB: Database,
-    {
-        query
-            .bind(self.name)
-            .bind(self.key)
-            .bind(self.address)
-            .bind(self.username)
-            .bind(self.federating)
-            .bind(self.alive)
     }
 
     fn count(&self, _typ: QueryType) -> &'a str {
@@ -65,21 +47,11 @@ pub struct Plan {
     plan_node: PlanNode,
 }
 
-impl<'a, DB, A> QueryGenerator<'a, DB, A> for Plan
-where
-    DB: Database,
-    A: Arguments<'a>,
-{
+impl<'a> QueryGenerator<'a> for Plan {
     fn id(&self) -> Option<i64> {
         self.id
     }
 
-    fn bind(&self, query: Query<'a, DB, A>) -> Query<'a, DB, A>
-    where
-        DB: Database,
-    {
-        query
-    }
     fn count(&self, _typ: QueryType) -> &'a str {
         Default::default()
     }
@@ -108,20 +80,9 @@ pub struct PlanNode {
     schedule: Schedule,
 }
 
-impl<'a, DB, A> QueryGenerator<'a, DB, A> for PlanNode
-where
-    DB: Database,
-    A: Arguments<'a>,
-{
+impl<'a> QueryGenerator<'a> for PlanNode {
     fn id(&self) -> Option<i64> {
         self.id
-    }
-
-    fn bind(&self, query: Query<'a, DB, A>) -> Query<'a, DB, A>
-    where
-        DB: Database,
-    {
-        query
     }
 
     fn count(&self, _typ: QueryType) -> &'a str {
@@ -153,20 +114,9 @@ pub struct Schedule {
     user: User,
 }
 
-impl<'a, DB, A> QueryGenerator<'a, DB, A> for Schedule
-where
-    DB: Database,
-    A: Arguments<'a>,
-{
+impl<'a> QueryGenerator<'a> for Schedule {
     fn id(&self) -> Option<i64> {
         self.id
-    }
-
-    fn bind(&self, query: Query<'a, DB, A>) -> Query<'a, DB, A>
-    where
-        DB: Database,
-    {
-        query
     }
 
     fn count(&self, _typ: QueryType) -> &'a str {
@@ -197,20 +147,9 @@ pub struct User {
     key: String,
 }
 
-impl<'a, DB, A> QueryGenerator<'a, DB, A> for User
-where
-    DB: Database,
-    A: Arguments<'a>,
-{
+impl<'a> QueryGenerator<'a> for User {
     fn id(&self) -> Option<i64> {
         self.id
-    }
-
-    fn bind(&self, query: Query<'a, DB, A>) -> Query<'a, DB, A>
-    where
-        DB: Database,
-    {
-        query
     }
 
     fn count(&self, _typ: QueryType) -> &'a str {
@@ -244,20 +183,9 @@ pub struct Status {
     last_queried: chrono::DateTime<chrono::Local>,
 }
 
-impl<'a, DB, A> QueryGenerator<'a, DB, A> for Status
-where
-    DB: Database,
-    A: Arguments<'a>,
-{
+impl<'a> QueryGenerator<'a> for Status {
     fn id(&self) -> Option<i64> {
         self.id
-    }
-
-    fn bind(&self, query: Query<'a, DB, A>) -> Query<'a, DB, A>
-    where
-        DB: Database,
-    {
-        query
     }
 
     fn count(&self, _typ: QueryType) -> &'a str {
@@ -289,20 +217,9 @@ pub struct Log {
     action: String,
 }
 
-impl<'a, DB, A> QueryGenerator<'a, DB, A> for Log
-where
-    DB: Database,
-    A: Arguments<'a>,
-{
+impl<'a> QueryGenerator<'a> for Log {
     fn id(&self) -> Option<i64> {
         self.id
-    }
-
-    fn bind(&self, query: Query<'a, DB, A>) -> Query<'a, DB, A>
-    where
-        DB: Database,
-    {
-        query
     }
 
     fn count(&self, _typ: QueryType) -> &'a str {

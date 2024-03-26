@@ -8,19 +8,19 @@ pub enum QueryType {
     Sqlite,
 }
 
-pub trait QueryGenerator<'a, DB, A>
-where
-    DB: Database,
-    A: Arguments<'a>,
-{
+macro_rules! bind {
+    ($query:item, $($binds:expr),*) => { {
+        let mut query = $query;
+        for item in $($binds,)* {
+            query = $query.bind(item)
+        }
+
+        query
+        } };
+}
+
+pub trait QueryGenerator<'a> {
     fn id(&self) -> Option<i64>;
-
-    fn bind_id(&self, query: Query<'a, DB, A>) -> Query<'a, DB, A> {
-        query.bind(self.id())
-    }
-
-    fn bind(&self, query: Query<'a, DB, A>) -> Query<'a, DB, A>;
-
     fn create(&self, typ: QueryType) -> &'a str;
     fn delete(&self, typ: QueryType) -> &'a str;
     fn update(&self, typ: QueryType) -> &'a str;

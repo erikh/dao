@@ -21,10 +21,7 @@ impl SqliteDB {
         })
     }
 
-    pub async fn create<'a>(
-        &self,
-        obj: impl QueryGenerator<'a, sqlx::Sqlite, sqlx::sqlite::SqliteArguments<'a>>,
-    ) -> Result<i64> {
+    pub async fn create<'a>(&self, obj: impl QueryGenerator<'a>) -> Result<i64> {
         let mut tx = self.connection.lock().await.begin().await?;
         let statement = obj.create(QueryType::Sqlite);
         let query = sqlx::query(&statement);
@@ -35,10 +32,7 @@ impl SqliteDB {
         Ok(res)
     }
 
-    pub async fn delete<'a>(
-        &self,
-        obj: impl QueryGenerator<'a, sqlx::Sqlite, sqlx::sqlite::SqliteArguments<'a>>,
-    ) -> Result<()> {
+    pub async fn delete<'a>(&self, obj: impl QueryGenerator<'a>) -> Result<()> {
         let mut tx = self.connection.lock().await.begin().await?;
 
         tx.execute(obj.bind(sqlx::query(&obj.delete(QueryType::Sqlite))))
@@ -48,10 +42,7 @@ impl SqliteDB {
         Ok(())
     }
 
-    pub async fn update<'a>(
-        &self,
-        obj: impl QueryGenerator<'a, sqlx::Sqlite, sqlx::sqlite::SqliteArguments<'a>>,
-    ) -> Result<()> {
+    pub async fn update<'a>(&self, obj: impl QueryGenerator<'a>) -> Result<()> {
         let mut tx = self.connection.lock().await.begin().await?;
 
         tx.execute(sqlx::raw_sql(&obj.update(QueryType::Sqlite)))
@@ -61,10 +52,7 @@ impl SqliteDB {
         Ok(())
     }
 
-    pub async fn exists<'a>(
-        &self,
-        obj: impl QueryGenerator<'a, sqlx::Sqlite, sqlx::sqlite::SqliteArguments<'a>>,
-    ) -> Result<bool> {
+    pub async fn exists<'a>(&self, obj: impl QueryGenerator<'a>) -> Result<bool> {
         let mut tx = self.connection.lock().await.begin().await?;
 
         let res = tx
@@ -77,10 +65,7 @@ impl SqliteDB {
         Ok(res)
     }
 
-    pub async fn count<'a>(
-        &self,
-        obj: impl QueryGenerator<'a, sqlx::Sqlite, sqlx::sqlite::SqliteArguments<'a>>,
-    ) -> Result<i64> {
+    pub async fn count<'a>(&self, obj: impl QueryGenerator<'a>) -> Result<i64> {
         let mut tx = self.connection.lock().await.begin().await?;
 
         let res = tx
