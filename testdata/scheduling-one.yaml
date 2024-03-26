@@ -1,0 +1,5 @@
+name: foo
+command: schedule
+args:
+  kind: nspawn
+  image: nginx

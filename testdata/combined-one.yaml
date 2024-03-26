@@ -1,0 +1,18 @@
+location:
+  kind: systemd
+  filter:
+    datacenter: xo
+commands:
+  - name: foo-network
+    command: network
+    args:
+      kind: veth
+      ipv4-props: address=192.168.1.1
+      gateway-phy: eth0
+    schedule-with:
+      - foo
+  - name: foo
+    command: schedule
+    args:
+      kind: nspawn
+      image: nginx
