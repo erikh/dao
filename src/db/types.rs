@@ -11,19 +11,9 @@ pub struct Node {
     alive: bool,
 }
 
-impl<'a, DB> QueryGenerator<'a, DB> for Node
-where
-    DB: sqlx::Database,
-{
+impl<'a> QueryGenerator<'a> for Node {
     fn id(&self) -> Option<i64> {
         self.id
-    }
-
-    fn binds<T>(&self) -> Vec<T>
-    where
-        T: 'a + Send + Encode<'a, DB> + Type<DB>,
-    {
-        vec![]
     }
 
     fn count(&self, _typ: QueryType) -> &'a str {
@@ -57,19 +47,9 @@ pub struct Plan {
     plan_node: PlanNode,
 }
 
-impl<'a, DB> QueryGenerator<'a, DB> for Plan
-where
-    DB: sqlx::Database,
-{
+impl<'a> QueryGenerator<'a> for Plan {
     fn id(&self) -> Option<i64> {
         self.id
-    }
-
-    fn binds<T>(&self) -> Vec<T>
-    where
-        T: 'a + Send + Encode<'a, DB> + Type<DB>,
-    {
-        vec![]
     }
 
     fn count(&self, _typ: QueryType) -> &'a str {
@@ -100,19 +80,9 @@ pub struct PlanNode {
     schedule: Schedule,
 }
 
-impl<'a, DB> QueryGenerator<'a, DB> for PlanNode
-where
-    DB: sqlx::Database,
-{
+impl<'a> QueryGenerator<'a> for PlanNode {
     fn id(&self) -> Option<i64> {
         self.id
-    }
-
-    fn binds<T>(&self) -> Vec<T>
-    where
-        T: 'a + Send + Encode<'a, DB> + Type<DB>,
-    {
-        vec![]
     }
 
     fn count(&self, _typ: QueryType) -> &'a str {
@@ -144,19 +114,9 @@ pub struct Schedule {
     user: User,
 }
 
-impl<'a, DB> QueryGenerator<'a, DB> for Schedule
-where
-    DB: sqlx::Database,
-{
+impl<'a> QueryGenerator<'a> for Schedule {
     fn id(&self) -> Option<i64> {
         self.id
-    }
-
-    fn binds<T>(&self) -> Vec<T>
-    where
-        T: 'a + Send + Encode<'a, DB> + Type<DB>,
-    {
-        vec![]
     }
 
     fn count(&self, _typ: QueryType) -> &'a str {
@@ -187,19 +147,9 @@ pub struct User {
     key: String,
 }
 
-impl<'a, DB> QueryGenerator<'a, DB> for User
-where
-    DB: sqlx::Database,
-{
+impl<'a> QueryGenerator<'a> for User {
     fn id(&self) -> Option<i64> {
         self.id
-    }
-
-    fn binds<T>(&self) -> Vec<T>
-    where
-        T: 'a + Send + Encode<'a, DB> + Type<DB>,
-    {
-        vec![]
     }
 
     fn count(&self, _typ: QueryType) -> &'a str {
@@ -233,19 +183,9 @@ pub struct Status {
     last_queried: chrono::DateTime<chrono::Local>,
 }
 
-impl<'a, DB> QueryGenerator<'a, DB> for Status
-where
-    DB: sqlx::Database,
-{
+impl<'a> QueryGenerator<'a> for Status {
     fn id(&self) -> Option<i64> {
         self.id
-    }
-
-    fn binds<T>(&self) -> Vec<T>
-    where
-        T: 'a + Send + Encode<'a, DB> + Type<DB>,
-    {
-        vec![]
     }
 
     fn count(&self, _typ: QueryType) -> &'a str {
@@ -277,19 +217,9 @@ pub struct Log {
     action: String,
 }
 
-impl<'a, DB> QueryGenerator<'a, DB> for Log
-where
-    DB: sqlx::Database,
-{
+impl<'a> QueryGenerator<'a> for Log {
     fn id(&self) -> Option<i64> {
         self.id
-    }
-
-    fn binds<T>(&self) -> Vec<T>
-    where
-        T: 'a + Send + Encode<'a, DB> + Type<DB>,
-    {
-        vec![]
     }
 
     fn count(&self, _typ: QueryType) -> &'a str {

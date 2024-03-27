@@ -1,8 +1,6 @@
 pub mod sqlite;
 pub mod types;
 
-use sqlx::{Encode, Type};
-
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum QueryType {
     Sqlite,
@@ -28,15 +26,8 @@ macro_rules! bind {
     }};
 }
 
-pub trait QueryGenerator<'a, DB>
-where
-    DB: sqlx::Database,
-{
+pub trait QueryGenerator<'a> {
     fn id(&self) -> Option<i64>;
-    fn binds<T>(&self) -> Vec<T>
-    where
-        DB: sqlx::Database,
-        T: 'a + Send + Encode<'a, DB> + Type<DB>;
     fn create(&self, typ: QueryType) -> &'a str;
     fn delete(&self, typ: QueryType) -> &'a str;
     fn update(&self, typ: QueryType) -> &'a str;
