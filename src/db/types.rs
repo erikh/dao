@@ -1,6 +1,7 @@
 use super::*;
+use anyhow::anyhow;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, sqlx::FromRow)]
 pub struct Node {
     id: Option<i64>,
     name: String,
@@ -11,9 +12,36 @@ pub struct Node {
     alive: bool,
 }
 
-impl<'a> QueryGenerator<'a> for Node {
+impl<'a, T, DB> QueryGenerator<'a, T, DB> for Node
+where
+    DB: sqlx::Database,
+    T: Type<DB> + Encode<'a, DB> + Send,
+{
     fn id(&self) -> Option<i64> {
         self.id
+    }
+
+    fn bind_columns(&self) -> Vec<String> {
+        vec![
+            "name".to_string(),
+            "key".to_string(),
+            "address".to_string(),
+            "username".to_string(),
+            "federating".to_string(),
+            "alive".to_string(),
+        ]
+    }
+
+    fn value(&self, column: &str) -> Result<T> {
+        match column {
+            "name" => Ok(self.name),
+            "key" => Ok(self.key),
+            "address" => Ok(self.address),
+            "username" => Ok(self.username),
+            "federating" => Ok(self.federating),
+            "alive" => Ok(self.alive),
+            _ => Err(anyhow!("invalid column '{}'", column)),
+        }
     }
 
     fn count(&self, _typ: QueryType) -> &'a str {
@@ -47,9 +75,23 @@ pub struct Plan {
     plan_node: PlanNode,
 }
 
-impl<'a> QueryGenerator<'a> for Plan {
+impl<'a, T, DB> QueryGenerator<'a, T, DB> for Plan
+where
+    DB: sqlx::Database,
+    T: Type<DB> + Encode<'a, DB> + Send,
+{
     fn id(&self) -> Option<i64> {
         self.id
+    }
+
+    fn bind_columns(&self) -> Vec<String> {
+        vec![]
+    }
+
+    fn value(&self, column: &str) -> Result<T> {
+        match column {
+            _ => Err(anyhow!("invalid column '{}'", column)),
+        }
     }
 
     fn count(&self, _typ: QueryType) -> &'a str {
@@ -80,9 +122,23 @@ pub struct PlanNode {
     schedule: Schedule,
 }
 
-impl<'a> QueryGenerator<'a> for PlanNode {
+impl<'a, T, DB> QueryGenerator<'a, T, DB> for PlanNode
+where
+    DB: sqlx::Database,
+    T: Type<DB> + Encode<'a, DB> + Send,
+{
     fn id(&self) -> Option<i64> {
         self.id
+    }
+
+    fn bind_columns(&self) -> Vec<String> {
+        vec![]
+    }
+
+    fn value(&self, column: &str) -> Result<T> {
+        match column {
+            _ => Err(anyhow!("invalid column '{}'", column)),
+        }
     }
 
     fn count(&self, _typ: QueryType) -> &'a str {
@@ -114,9 +170,23 @@ pub struct Schedule {
     user: User,
 }
 
-impl<'a> QueryGenerator<'a> for Schedule {
+impl<'a, T, DB> QueryGenerator<'a, T, DB> for Schedule
+where
+    DB: sqlx::Database,
+    T: Type<DB> + Encode<'a, DB> + Send,
+{
     fn id(&self) -> Option<i64> {
         self.id
+    }
+
+    fn bind_columns(&self) -> Vec<String> {
+        vec![]
+    }
+
+    fn value(&self, column: &str) -> Result<T> {
+        match column {
+            _ => Err(anyhow!("invalid column '{}'", column)),
+        }
     }
 
     fn count(&self, _typ: QueryType) -> &'a str {
@@ -147,9 +217,23 @@ pub struct User {
     key: String,
 }
 
-impl<'a> QueryGenerator<'a> for User {
+impl<'a, T, DB> QueryGenerator<'a, T, DB> for User
+where
+    DB: sqlx::Database,
+    T: Type<DB> + Encode<'a, DB> + Send,
+{
     fn id(&self) -> Option<i64> {
         self.id
+    }
+
+    fn bind_columns(&self) -> Vec<String> {
+        vec![]
+    }
+
+    fn value(&self, column: &str) -> Result<T> {
+        match column {
+            _ => Err(anyhow!("invalid column '{}'", column)),
+        }
     }
 
     fn count(&self, _typ: QueryType) -> &'a str {
@@ -183,9 +267,23 @@ pub struct Status {
     last_queried: chrono::DateTime<chrono::Local>,
 }
 
-impl<'a> QueryGenerator<'a> for Status {
+impl<'a, T, DB> QueryGenerator<'a, T, DB> for Status
+where
+    DB: sqlx::Database,
+    T: Type<DB> + Encode<'a, DB> + Send,
+{
     fn id(&self) -> Option<i64> {
         self.id
+    }
+
+    fn bind_columns(&self) -> Vec<String> {
+        vec![]
+    }
+
+    fn value(&self, column: &str) -> Result<T> {
+        match column {
+            _ => Err(anyhow!("invalid column '{}'", column)),
+        }
     }
 
     fn count(&self, _typ: QueryType) -> &'a str {
@@ -217,9 +315,23 @@ pub struct Log {
     action: String,
 }
 
-impl<'a> QueryGenerator<'a> for Log {
+impl<'a, T, DB> QueryGenerator<'a, T, DB> for Log
+where
+    DB: sqlx::Database,
+    T: Type<DB> + Encode<'a, DB> + Send,
+{
     fn id(&self) -> Option<i64> {
         self.id
+    }
+
+    fn bind_columns(&self) -> Vec<String> {
+        vec![]
+    }
+
+    fn value(&self, column: &str) -> Result<T> {
+        match column {
+            _ => Err(anyhow!("invalid column '{}'", column)),
+        }
     }
 
     fn count(&self, _typ: QueryType) -> &'a str {
