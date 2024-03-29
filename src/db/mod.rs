@@ -13,7 +13,7 @@ pub enum QueryType {
 macro_rules! bind {
     ($obj:expr, $query:expr, $binds:expr) => {{
         let mut query = $query;
-        for item in $($binds)* {
+        for item in $binds {
             query = query.bind($obj.value(item)?)
         }
 
